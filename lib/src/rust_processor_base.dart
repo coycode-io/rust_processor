@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
+import 'dart:convert';
 
 typedef ProcessStringNative = ffi.Pointer<ffi.Int8> Function(
     ffi.Pointer<ffi.Int8>);
@@ -61,5 +62,24 @@ String _getLibraryPath(String proyname) {
     return './test/linux_so/lib${proyname}_rust.so';
   } else {
     throw UnsupportedError('This platform is not supported.');
+  }
+}
+
+abstract class JsonEncodable {
+  Map<String, dynamic> toJson([Map<String, Object>? additionalFields]);
+}
+
+class Endecoder {
+  static String centralEncode(
+      JsonEncodable objectsWithToJson, Map<String, Object> additionalFields) {
+    return jsonEncode(objectsWithToJson.toJson(additionalFields));
+  }
+
+  static T centralDecode<T>(T Function(String) fromJsonString, String toParse) {
+    return fromJsonString(toParse);
+  }
+
+  static String applyEncodingContentRule(Object toS) {
+    return "§$toS§";
   }
 }
