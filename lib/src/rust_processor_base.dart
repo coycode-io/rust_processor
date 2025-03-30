@@ -59,7 +59,7 @@ String _getLibraryPath(String proyname) {
   if (Platform.isAndroid) {
     return 'lib$proyname.so';
   } else if (Platform.isLinux) {
-    return './test/linux_so/lib${proyname}_rust.so';
+    return './test/linux_so/lib$proyname.so';
   } else {
     throw UnsupportedError('This platform is not supported.');
   }
