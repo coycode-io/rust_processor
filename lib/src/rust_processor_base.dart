@@ -87,6 +87,9 @@ abstract class JsonEncodable {
 class Endecoder {
   /// central encoding method that takes an object implementing JsonEncodable
   /// and a map of additional fields to include in the JSON representation.
+  /// These are should be written to the map returned by toJson method of the object
+  /// after the putting the objects own fields into the map.
+  /// USUALLY DART TO RUST
   static String centralEncodeFromDartToRust(
     JsonEncodable objectsWithToJson,
     Map<String, Object> additionalFields,
