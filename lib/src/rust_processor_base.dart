@@ -1,10 +1,24 @@
+// imported to resolve the path to the dynamic library, specifically for Android and Linux platforms.
+// We seem to be missing apple platforms here.
 import 'dart:io' show Platform;
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
 import 'dart:convert';
 
+/// to be imported in the dart_test_connector.
+/// typedefs for the Rust functions based on their signatures
+/// namely the input and output types.
+/// Input: ffi.Pointer<ffi.Int8> - a pointer to a C string (the string you want to process)
+/// Output: ffi.Pointer<ffi.Int8> - a pointer to a C string (the processed string)
+/// that of course is basic dart synatax migillix, so returnType Function(argType)
+/// ffi.Pointer<ffi.Int8> is pointing to the first byte of a null-terminated string
+/// so to the beginning of a sequence of Int8 values that represent the string's characters.
 typedef ProcessStringNative = ffi.Pointer<ffi.Int8> Function(
     ffi.Pointer<ffi.Int8>);
+
+/// Dart function type that corresponds to the native function signature.
+/// This is here for definitory purposes, to map the native function to a Dart callable function.
+/// NOT USED DIRECTLY.
 typedef ProcessStringDart = ffi.Pointer<ffi.Int8> Function(
     ffi.Pointer<ffi.Int8>);
 
@@ -69,9 +83,14 @@ abstract class JsonEncodable {
   Map<String, dynamic> toJson([Map<String, Object>? additionalFields]);
 }
 
+/// class to define reusable encoding and decoding methods
 class Endecoder {
-  static String centralEncode(
-      JsonEncodable objectsWithToJson, Map<String, Object> additionalFields) {
+  /// central encoding method that takes an object implementing JsonEncodable
+  /// and a map of additional fields to include in the JSON representation.
+  static String centralEncodeFromDartToRust(
+    JsonEncodable objectsWithToJson,
+    Map<String, Object> additionalFields,
+  ) {
     return jsonEncode(objectsWithToJson.toJson(additionalFields));
   }
 
