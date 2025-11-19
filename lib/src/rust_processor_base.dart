@@ -49,7 +49,7 @@ class RustProcessor {
             'kill_rust_process');
   }
 
-  String processStringInRust(String input) {
+  String callFromDartToProcessStringInRust(String input) {
     final inputPtr = input.toNativeUtf8().cast<ffi.Int8>();
     final resultPtr = processString(inputPtr);
     final result = resultPtr.cast<Utf8>().toDartString();
