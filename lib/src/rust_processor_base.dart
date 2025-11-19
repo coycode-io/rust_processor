@@ -32,13 +32,13 @@ typedef FreeStringDart = void Function(
 typedef KillRustProcessNative = ffi.Void Function();
 typedef KillRustProcessDart = void Function();
 
-class RustProcessor {
+class DartUseRustProcessor {
   late final ffi.DynamicLibrary lib;
   late final ProcessStringDart processString;
   late final FreeStringDart freeString;
   late final KillRustProcessDart killRustProcess;
 
-  RustProcessor({required String proyname}) {
+  DartUseRustProcessor({required String proyname}) {
     lib = ffi.DynamicLibrary.open(_getLibraryPath(proyname));
     processString = lib.lookupFunction<ProcessStringNative, ProcessStringDart>(
         'process_string');
@@ -84,7 +84,7 @@ abstract class JsonEncodable {
 }
 
 /// class to define reusable encoding and decoding methods
-class Endecoder {
+class DartUseEndecoder {
   /// central encoding method that takes an object implementing JsonEncodable
   /// and a map of additional fields to include in the JSON representation.
   /// These are should be written to the map returned by toJson method of the object
@@ -97,7 +97,8 @@ class Endecoder {
     return jsonEncode(objectsWithToJson.toJson(additionalFields));
   }
 
-  static T centralDecode<T>(T Function(String) fromJsonString, String toParse) {
+  static T centralDecodeComingIntoDart<T>(
+      T Function(String) fromJsonString, String toParse) {
     return fromJsonString(toParse);
   }
 
